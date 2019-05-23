@@ -7,6 +7,10 @@ package views;
  */
 public class HomeWindow extends javax.swing.JFrame {
 
+    
+    int xMouse; 
+    int yMouse; 
+    
     /**
      * Creates new form HomeWindow
      */
@@ -48,10 +52,22 @@ public class HomeWindow extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setUndecorated(true);
+
+        fondo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                fondoMouseDragged(evt);
+            }
+        });
+        fondo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                fondoMousePressed(evt);
+            }
+        });
 
         panellateral.setBackground(new java.awt.Color(86, 153, 65));
 
@@ -268,6 +284,10 @@ public class HomeWindow extends javax.swing.JFrame {
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-más-filled-32.png"))); // NOI18N
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0)));
 
+        jButton2.setBackground(new java.awt.Color(163, 217, 119));
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-eliminar-filled-32.png"))); // NOI18N
+        jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0)));
+
         javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
         fondo.setLayout(fondoLayout);
         fondoLayout.setHorizontalGroup(
@@ -283,7 +303,9 @@ public class HomeWindow extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
                                 .addComponent(jScrollPane1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(6, 6, 6)))
                         .addContainerGap())))
         );
@@ -298,7 +320,10 @@ public class HomeWindow extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -318,8 +343,22 @@ public class HomeWindow extends javax.swing.JFrame {
 
     private void closeIconMouseClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeIconMouseClick
         // TODO add your handling code here:
-        System.exit(1);
+        System.out.println("Cerrando");
+        System.exit(0);
     }//GEN-LAST:event_closeIconMouseClick
+
+    private void fondoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fondoMousePressed
+        // TODO add your handling code here:
+        xMouse = evt.getX(); 
+        yMouse = evt.getY(); 
+    }//GEN-LAST:event_fondoMousePressed
+
+    private void fondoMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fondoMouseDragged
+        // TODO add your handling code here:
+        int x = evt.getXOnScreen(); 
+        int y =evt.getYOnScreen(); 
+        this.setLocation(x-xMouse, y-yMouse);
+    }//GEN-LAST:event_fondoMouseDragged
 
     /**
      * @param args the command line arguments
@@ -362,6 +401,7 @@ public class HomeWindow extends javax.swing.JFrame {
     private javax.swing.JPanel btnProductos;
     private javax.swing.JPanel fondo;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
