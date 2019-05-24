@@ -3,6 +3,7 @@ package views;
 
 import controller.ProductoControlador;
 import controller.util.FechaSistema;
+import controller.util.TableFix;
 import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import javax.swing.ImageIcon;
@@ -509,6 +510,7 @@ public class HomeWindow extends javax.swing.JFrame {
         //controlador
         ProductoControlador control = new ProductoControlador();
         tblDatos.setModel(control.generarModelo());
+        TableFix.fixTableProductos(tblDatos);
     }//GEN-LAST:event_selectProductosClick
 
     /**
