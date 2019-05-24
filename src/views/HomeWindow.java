@@ -1,21 +1,51 @@
 
 package views;
 
+import controller.util.FechaSistema;
+import java.awt.Color;
+import java.awt.GraphicsEnvironment;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
 /**
- *
+ *Ventana principal de la aplicación 
  * @author luis
  */
 public class HomeWindow extends javax.swing.JFrame {
 
-    
+    /**
+     * Variables para almacenar la posición donde se da click en la pantalla 
+     */
     int xMouse; 
     int yMouse; 
+    
+    /**
+     * Variable para saber si la ventana esta maximizada
+     */
+    private static boolean estaMaximizada;
+    
+    /**
+     * Variable para la actualización de la fecha
+     */
+    private Timer timer;
     
     /**
      * Creates new form HomeWindow
      */
     public HomeWindow() {
         initComponents();
+        try{
+            setIconImage(new ImageIcon(getClass().getResource("res/Pizza-icon.png")).getImage());
+        }catch(Exception e){
+            System.out.println("No loaded icon image");
+            e.printStackTrace();
+        }
+        
+        timer = new Timer(60, new FechaSistema(txtFecha, txtHora));
+        timer.start();
     }
 
     /**
@@ -45,18 +75,25 @@ public class HomeWindow extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        txtFecha = new javax.swing.JLabel();
+        txtHora = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        txtTituloBajo = new javax.swing.JLabel();
+        txtTituloAlto = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Pizza Nostra");
         setLocationByPlatform(true);
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1021, 726));
+        setSize(new java.awt.Dimension(1021, 726));
 
         fondo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -83,6 +120,11 @@ public class HomeWindow extends javax.swing.JFrame {
         jLabel6.setText("386 744 08 95");
 
         btnOrdenes.setBackground(new java.awt.Color(85, 141, 81));
+        btnOrdenes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                selectOrdenesClick(evt);
+            }
+        });
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-pizza-15.png"))); // NOI18N
 
@@ -111,6 +153,11 @@ public class HomeWindow extends javax.swing.JFrame {
         );
 
         btnProductos.setBackground(new java.awt.Color(112, 178, 107));
+        btnProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                selectProductosClick(evt);
+            }
+        });
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-ingredientes-15.png"))); // NOI18N
 
@@ -126,7 +173,7 @@ public class HomeWindow extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addGap(33, 33, 33)
                 .addComponent(jLabel10)
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         btnProductosLayout.setVerticalGroup(
             btnProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,6 +186,11 @@ public class HomeWindow extends javax.swing.JFrame {
         );
 
         btnCaja.setBackground(new java.awt.Color(112, 178, 107));
+        btnCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                selectCajaClick(evt);
+            }
+        });
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-caja-registradora-filled-15.png"))); // NOI18N
 
@@ -154,7 +206,7 @@ public class HomeWindow extends javax.swing.JFrame {
                 .addComponent(jLabel11)
                 .addGap(33, 33, 33)
                 .addComponent(jLabel12)
-                .addContainerGap(170, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         btnCajaLayout.setVerticalGroup(
             btnCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,6 +220,20 @@ public class HomeWindow extends javax.swing.JFrame {
 
         jLabel13.setText("Siempre sonreír");
 
+        txtFecha.setText("Fecha: ");
+
+        txtHora.setText("Hora:");
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-calculadora-filled-50.png"))); // NOI18N
+        jButton3.setBorder(null);
+        jButton3.setBorderPainted(false);
+        jButton3.setContentAreaFilled(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openCalcutor(evt);
+            }
+        });
+
         javax.swing.GroupLayout panellateralLayout = new javax.swing.GroupLayout(panellateral);
         panellateral.setLayout(panellateralLayout);
         panellateralLayout.setHorizontalGroup(
@@ -178,19 +244,31 @@ public class HomeWindow extends javax.swing.JFrame {
             .addGroup(panellateralLayout.createSequentialGroup()
                 .addGroup(panellateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panellateralLayout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addGroup(panellateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel1))
-                    .addGroup(panellateralLayout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addComponent(jLabel13)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(panellateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panellateralLayout.createSequentialGroup()
+                                .addGap(57, 57, 57)
+                                .addGroup(panellateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6))
+                                .addGap(26, 26, 26)
+                                .addComponent(jLabel1))
+                            .addGroup(panellateralLayout.createSequentialGroup()
+                                .addGap(72, 72, 72)
+                                .addComponent(jLabel13))
+                            .addGroup(panellateralLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(txtFecha))
+                            .addGroup(panellateralLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(txtHora)))
+                        .addGap(0, 31, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panellateralLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         panellateralLayout.setVerticalGroup(
             panellateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,15 +296,21 @@ public class HomeWindow extends javax.swing.JFrame {
                 .addComponent(btnCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel13)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addComponent(txtFecha)
+                .addGap(18, 18, 18)
+                .addComponent(txtHora)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel1.setBackground(new java.awt.Color(163, 217, 119));
 
-        jLabel15.setText("ORDENES DE SERVICIO");
+        txtTituloBajo.setText("ORDENES DE SERVICIO");
 
-        jLabel16.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel16.setText("ORDENES DEL DIA DE HOY");
+        txtTituloAlto.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        txtTituloAlto.setText("ORDENES DEL DIA DE HOY");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -236,19 +320,19 @@ public class HomeWindow extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addComponent(jLabel15))
+                        .addComponent(txtTituloBajo))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(59, 59, 59)
-                        .addComponent(jLabel16)))
-                .addContainerGap(250, Short.MAX_VALUE))
+                        .addComponent(txtTituloAlto)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel15)
+                .addComponent(txtTituloBajo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel16)
+                .addComponent(txtTituloAlto)
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
@@ -275,6 +359,7 @@ public class HomeWindow extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jTable1.setGridColor(new java.awt.Color(255, 255, 255));
         jTable1.setIntercellSpacing(new java.awt.Dimension(5, 5));
         jTable1.setSelectionBackground(new java.awt.Color(85, 141, 81));
@@ -288,6 +373,14 @@ public class HomeWindow extends javax.swing.JFrame {
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-eliminar-filled-32.png"))); // NOI18N
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0)));
 
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-maximizar-la-ventana-15.png"))); // NOI18N
+        jLabel17.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jLabel17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                maximizarClick(evt);
+            }
+        });
+
         javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
         fondo.setLayout(fondoLayout);
         fondoLayout.setHorizontalGroup(
@@ -299,10 +392,14 @@ public class HomeWindow extends javax.swing.JFrame {
                     .addGroup(fondoLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
-                                .addComponent(jScrollPane1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel17)
+                                .addGap(5, 5, 5)
+                                .addComponent(jLabel14))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
+                                .addGap(66, 66, 66)
                                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -314,17 +411,19 @@ public class HomeWindow extends javax.swing.JFrame {
             .addComponent(panellateral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(fondoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel14)
+                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel17))
                 .addGap(46, 46, 46)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
                     .addGroup(fondoLayout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -338,28 +437,132 @@ public class HomeWindow extends javax.swing.JFrame {
             .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1021, 726));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Funcionamiento para cerrar la ventana con el boton X
+     * @param evt 
+     */
     private void closeIconMouseClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeIconMouseClick
         // TODO add your handling code here:
         System.out.println("Cerrando");
+        timer.stop();
         System.exit(0);
     }//GEN-LAST:event_closeIconMouseClick
 
+    /**
+     * Captura la posición donde se dio clic en la pantalla 
+     * Se utiliza para poder desplazar la ventana 
+     * @param evt 
+     */
     private void fondoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fondoMousePressed
         // TODO add your handling code here:
         xMouse = evt.getX(); 
         yMouse = evt.getY(); 
     }//GEN-LAST:event_fondoMousePressed
 
+    /**
+     * Mueve la posición de la ventana segun se arrastra le mouse a lo largo de 
+     * la pantalla 
+     * @param evt 
+     */
     private void fondoMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fondoMouseDragged
         // TODO add your handling code here:
-        int x = evt.getXOnScreen(); 
-        int y =evt.getYOnScreen(); 
-        this.setLocation(x-xMouse, y-yMouse);
+        if(!estaMaximizada){
+            int x = evt.getXOnScreen(); 
+            int y =evt.getYOnScreen(); 
+            this.setLocation(x-xMouse, y-yMouse);
+       }
     }//GEN-LAST:event_fondoMouseDragged
 
+    /**
+     * Evento que sucede al dar clic en el boton de ordenes 
+     * @param evt 
+     */
+    private void selectOrdenesClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectOrdenesClick
+        // TODO add your handling code here:
+        resetColorsBtns();
+        seleccionColor(btnOrdenes);
+    }//GEN-LAST:event_selectOrdenesClick
+
+    /**
+     * Evento que sucede al dar clic en el boton de productos 
+     * @param evt 
+     */
+    private void selectProductosClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectProductosClick
+        // TODO add your handling code here:
+        resetColorsBtns();
+        seleccionColor(btnProductos);
+    }//GEN-LAST:event_selectProductosClick
+
+    /**
+     * Evento que sucede al dar clic en el boton de caja 
+     * @param evt 
+     */
+    private void selectCajaClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectCajaClick
+        // TODO add your handling code here:
+        resetColorsBtns();
+        seleccionColor(btnCaja);
+    }//GEN-LAST:event_selectCajaClick
+
+    private void maximizarClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_maximizarClick
+        if(!estaMaximizada)
+        {
+            HomeWindow.this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            HomeWindow.this.setMaximizedBounds(env.getMaximumWindowBounds());
+            estaMaximizada = true;
+        }else{
+            setExtendedState(JFrame.NORMAL);
+            estaMaximizada=false; 
+        }
+    }//GEN-LAST:event_maximizarClick
+
+    
+    /***
+     * Metodo para abrir la calculadora del sistema
+     * @param evt 
+     */
+    private void openCalcutor(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openCalcutor
+        String nameOs = System.getProperty("os.name"); 
+        System.out.println("Sistema operativo: " + nameOs);
+        Runtime runtime = Runtime.getRuntime();
+        try{
+            switch(nameOs){
+                case "Linux":
+                    runtime.exec("gnome-calculator");
+                    break;
+                case "Windows":
+                    runtime.exec("calc.exe");
+                default: 
+                    JOptionPane.showMessageDialog(this, "No se encontro un sistema operativo valido", "Información"
+                                    , JOptionPane.INFORMATION_MESSAGE);
+            }
+        }catch(Exception e){
+            System.out.println("Ocurrio un error al abrir la calculadora");
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "No se pudo encontrar una calculadora en tu sistema", "ERROR"
+                                    , JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_openCalcutor
+
+    
+    private void resetColorsBtns(){
+        defaultColor(btnCaja);
+        defaultColor(btnOrdenes);
+        defaultColor(btnProductos);
+    }
+    
+    private void seleccionColor(JPanel btn){
+        btn.setBackground(new Color(85,141,81));
+    }
+    
+    private void defaultColor(JPanel btn){
+        btn.setBackground(new Color(112,178,107));
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -402,14 +605,14 @@ public class HomeWindow extends javax.swing.JFrame {
     private javax.swing.JPanel fondo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -422,5 +625,9 @@ public class HomeWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel panellateral;
+    private javax.swing.JLabel txtFecha;
+    private javax.swing.JLabel txtHora;
+    private javax.swing.JLabel txtTituloAlto;
+    private javax.swing.JLabel txtTituloBajo;
     // End of variables declaration//GEN-END:variables
 }
