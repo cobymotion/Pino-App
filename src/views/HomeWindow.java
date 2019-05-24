@@ -1,6 +1,7 @@
 
 package views;
 
+import controller.ProductoControlador;
 import controller.util.FechaSistema;
 import java.awt.Color;
 import java.awt.GraphicsEnvironment;
@@ -9,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import views.dialogs.ProductosDialog;
 
 /**
  *Ventana principal de la aplicación 
@@ -38,7 +40,8 @@ public class HomeWindow extends javax.swing.JFrame {
     public HomeWindow() {
         initComponents();
         try{
-            setIconImage(new ImageIcon(getClass().getResource("res/Pizza-icon.png")).getImage());
+            setIconImage(new ImageIcon(getClass()
+                    .getResource("res/Pizza-icon.png")).getImage());
         }catch(Exception e){
             System.out.println("No loaded icon image");
             e.printStackTrace();
@@ -83,7 +86,7 @@ public class HomeWindow extends javax.swing.JFrame {
         txtTituloAlto = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblDatos = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
@@ -346,9 +349,9 @@ public class HomeWindow extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        jTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        jTable1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblDatos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        tblDatos.setFont(new java.awt.Font("Dialog", 0, 16)); // NOI18N
+        tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -359,15 +362,21 @@ public class HomeWindow extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        jTable1.setGridColor(new java.awt.Color(255, 255, 255));
-        jTable1.setIntercellSpacing(new java.awt.Dimension(5, 5));
-        jTable1.setSelectionBackground(new java.awt.Color(85, 141, 81));
-        jScrollPane1.setViewportView(jTable1);
+        tblDatos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tblDatos.setGridColor(new java.awt.Color(255, 255, 255));
+        tblDatos.setIntercellSpacing(new java.awt.Dimension(5, 5));
+        tblDatos.setRowHeight(24);
+        tblDatos.setSelectionBackground(new java.awt.Color(85, 141, 81));
+        jScrollPane1.setViewportView(tblDatos);
 
         jButton1.setBackground(new java.awt.Color(163, 217, 119));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-más-filled-32.png"))); // NOI18N
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0)));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregaBotonClick(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(163, 217, 119));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-eliminar-filled-32.png"))); // NOI18N
@@ -418,12 +427,12 @@ public class HomeWindow extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
                     .addGroup(fondoLayout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)))
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -492,9 +501,14 @@ public class HomeWindow extends javax.swing.JFrame {
      * @param evt 
      */
     private void selectProductosClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectProductosClick
-        // TODO add your handling code here:
-        resetColorsBtns();
+            resetColorsBtns();
         seleccionColor(btnProductos);
+        //Evento
+        txtTituloBajo.setText("PRODUCTOS");
+        txtTituloAlto.setText("LISTA DE PRODUCTOS");
+        //controlador
+        ProductoControlador control = new ProductoControlador();
+        tblDatos.setModel(control.generarModelo());
     }//GEN-LAST:event_selectProductosClick
 
     /**
@@ -536,8 +550,15 @@ public class HomeWindow extends javax.swing.JFrame {
                     break;
                 case "Windows":
                     runtime.exec("calc.exe");
+                    break;
+                case "MAC OS X":
+                    runtime.exec("calculator"); // investigar 
+                    break;
                 default: 
-                    JOptionPane.showMessageDialog(this, "No se encontro un sistema operativo valido", "Información"
+                    if(nameOs.contains("Windows"))
+                        runtime.exec("calc.exe");
+                    else
+                        JOptionPane.showMessageDialog(this, "No se encontro un sistema operativo valido", "Información"
                                     , JOptionPane.INFORMATION_MESSAGE);
             }
         }catch(Exception e){
@@ -547,6 +568,16 @@ public class HomeWindow extends javax.swing.JFrame {
                                     , JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_openCalcutor
+
+    private void agregaBotonClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregaBotonClick
+        /// Falta comparar 
+        ProductosDialog dialog = new ProductosDialog
+                                          (this, true, "Agregar producto");
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        ProductoControlador control = new ProductoControlador();
+        tblDatos.setModel(control.generarModelo());
+    }//GEN-LAST:event_agregaBotonClick
 
     
     private void resetColorsBtns(){
@@ -623,8 +654,8 @@ public class HomeWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel panellateral;
+    private javax.swing.JTable tblDatos;
     private javax.swing.JLabel txtFecha;
     private javax.swing.JLabel txtHora;
     private javax.swing.JLabel txtTituloAlto;
