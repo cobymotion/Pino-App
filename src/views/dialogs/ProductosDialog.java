@@ -22,13 +22,19 @@ public class ProductosDialog extends javax.swing.JDialog {
     int yMouse;
 
     /**
+     * Panel activo
+     */
+    
+    private JPanel activo;
+    /**
      * Creates new form AltaProductosDialog
      */
     public ProductosDialog(java.awt.Frame parent, boolean modal, String title) {
         super(parent, modal);
         initComponents();
         txtTituloVentana.setText(title);
-        changePanel(new PizzaAtributos());
+        activo = new PizzaAtributos();
+        changePanel(activo);
     }
 
     private void changePanel(JPanel panel) {
@@ -64,7 +70,7 @@ public class ProductosDialog extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jpEspecificos = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnAceptar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -142,7 +148,12 @@ public class ProductosDialog extends javax.swing.JDialog {
         jpEspecificos.setPreferredSize(new java.awt.Dimension(334, 123));
         jpEspecificos.setLayout(new java.awt.BorderLayout());
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-marca-de-verificacion-filled-32.png"))); // NOI18N
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-marca-de-verificacion-filled-32.png"))); // NOI18N
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarClick(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -178,7 +189,7 @@ public class ProductosDialog extends javax.swing.JDialog {
                                 .addComponent(jpEspecificos, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(16, 16, 16))))
         );
         layout.setVerticalGroup(
@@ -205,7 +216,7 @@ public class ProductosDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 14, Short.MAX_VALUE))
         );
 
@@ -234,16 +245,27 @@ public class ProductosDialog extends javax.swing.JDialog {
         System.out.println(cmbProducto.getSelectedItem().toString());
         switch (cmbProducto.getSelectedIndex()) {
             case 0:
-                changePanel(new PizzaAtributos());
+                activo = new PizzaAtributos();
                 break;
             case 1:
-                changePanel(new BebidasAtributos());
+                activo = new BebidasAtributos();
                 break;
             case 2:
             case 3:
-                changePanel(null);
+                activo = null;
         }
+        
+        changePanel(activo);
     }//GEN-LAST:event_cmbProductoAction
+
+    private void btnAceptarClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarClick
+        if(activo instanceof PizzaAtributos)
+        {
+            PizzaAtributos pizza = (PizzaAtributos)activo;
+            System.out.println(pizza.jComboBox1.getSelectedItem().toString());            
+        }
+        
+    }//GEN-LAST:event_btnAceptarClick
 
     /**
      * @param args the command line arguments
@@ -289,8 +311,8 @@ public class ProductosDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAceptar;
     private javax.swing.JComboBox<String> cmbProducto;
-    private javax.swing.JButton jButton1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

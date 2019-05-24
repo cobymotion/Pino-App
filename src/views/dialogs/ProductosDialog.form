@@ -62,7 +62,7 @@
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Component id="jButton1" min="-2" pref="61" max="-2" attributes="0"/>
+                              <Component id="btnAceptar" min="-2" pref="61" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
@@ -97,7 +97,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jFormattedTextField1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jButton1" min="-2" pref="53" max="-2" attributes="0"/>
+              <Component id="btnAceptar" min="-2" pref="53" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="14" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -250,12 +250,15 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
     </Container>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btnAceptar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/views/res/icons8-marca-de-verificacion-filled-32.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAceptarClick"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

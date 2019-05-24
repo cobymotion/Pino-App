@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import views.dialogs.ProductosDialog;
 
 /**
  *Ventana principal de la aplicación 
@@ -31,6 +32,15 @@ public class HomeWindow extends javax.swing.JFrame {
      * Variable para la actualización de la fecha
      */
     private Timer timer;
+    
+    /**
+     * Variable para saber en cual operacion estoy trabajando
+     *  0 pedidos
+     *  1 Productos 
+     *  2 Caja 
+     */
+    
+    private int operacion; 
     
     /**
      * Creates new form HomeWindow
@@ -84,7 +94,7 @@ public class HomeWindow extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnAddTable = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
 
@@ -92,7 +102,6 @@ public class HomeWindow extends javax.swing.JFrame {
         setTitle("Pizza Nostra");
         setLocationByPlatform(true);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1021, 726));
         setSize(new java.awt.Dimension(1021, 726));
 
         fondo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -365,9 +374,14 @@ public class HomeWindow extends javax.swing.JFrame {
         jTable1.setSelectionBackground(new java.awt.Color(85, 141, 81));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setBackground(new java.awt.Color(163, 217, 119));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-más-filled-32.png"))); // NOI18N
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0)));
+        btnAddTable.setBackground(new java.awt.Color(163, 217, 119));
+        btnAddTable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-más-filled-32.png"))); // NOI18N
+        btnAddTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0)));
+        btnAddTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddTableClick(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(163, 217, 119));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-eliminar-filled-32.png"))); // NOI18N
@@ -401,7 +415,7 @@ public class HomeWindow extends javax.swing.JFrame {
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
                                 .addGap(66, 66, 66)
                                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnAddTable, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(6, 6, 6)))
                         .addContainerGap())))
@@ -420,7 +434,7 @@ public class HomeWindow extends javax.swing.JFrame {
                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
                     .addGroup(fondoLayout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnAddTable)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)))
                 .addContainerGap(83, Short.MAX_VALUE))
@@ -495,6 +509,9 @@ public class HomeWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         resetColorsBtns();
         seleccionColor(btnProductos);
+        operacion = 1; 
+        txtTituloBajo.setText("PRODUCTOS");
+        txtTituloAlto.setText("LISTA DE PRODUCTOS");
     }//GEN-LAST:event_selectProductosClick
 
     /**
@@ -548,6 +565,22 @@ public class HomeWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_openCalcutor
 
+    /**
+     * Metodo para el comportamiento del agregar valores
+     * @param evt 
+     */
+    private void btnAddTableClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTableClick
+        switch(operacion)
+        {
+            case 0: 
+            case 1:
+                ProductosDialog dialog = new ProductosDialog(this, true, "Agregar productos"); 
+                dialog.setLocationRelativeTo(this);
+                dialog.setVisible(true);
+                break;
+        }
+    }//GEN-LAST:event_btnAddTableClick
+
     
     private void resetColorsBtns(){
         defaultColor(btnCaja);
@@ -599,11 +632,11 @@ public class HomeWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddTable;
     private javax.swing.JPanel btnCaja;
     private javax.swing.JPanel btnOrdenes;
     private javax.swing.JPanel btnProductos;
     private javax.swing.JPanel fondo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
