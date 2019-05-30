@@ -28,7 +28,7 @@ public class BebidasAtributos extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtTam = new javax.swing.JTextField();
 
         setMaximumSize(new java.awt.Dimension(334, 123));
         setMinimumSize(new java.awt.Dimension(334, 123));
@@ -36,7 +36,7 @@ public class BebidasAtributos extends javax.swing.JPanel {
 
         jLabel1.setText("Tamaño:");
 
-        jTextField1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtTam.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -48,7 +48,7 @@ public class BebidasAtributos extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 261, Short.MAX_VALUE))
-                    .addComponent(jTextField1))
+                    .addComponent(txtTam))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -57,7 +57,7 @@ public class BebidasAtributos extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(65, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -65,6 +65,6 @@ public class BebidasAtributos extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
+    public javax.swing.JTextField txtTam;
     // End of variables declaration//GEN-END:variables
 }

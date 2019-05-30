@@ -8,6 +8,10 @@ package views.dialogs;
 import controller.ProductoControlador;
 import javax.swing.JPanel;
 import model.Alitas;
+import model.Bebida;
+import model.Papas;
+import model.Pizza;
+import model.Producto;
 import views.panels.BebidasAtributos;
 import views.panels.PizzaAtributos;
 
@@ -23,6 +27,8 @@ public class ProductosDialog extends javax.swing.JDialog {
     int xMouse;
     int yMouse;
 
+    JPanel panelActivo; 
+    
     /**
      * Creates new form AltaProductosDialog
      */
@@ -33,10 +39,16 @@ public class ProductosDialog extends javax.swing.JDialog {
         changePanel(new PizzaAtributos());
     }
 
+    /**
+     * Funcion para cambiar el panel automatico 
+     * de los productos 
+     * @param panel es el tipo de panel que quiero mostrar
+     */
     private void changePanel(JPanel panel) {
         jpEspecificos.removeAll();
         jpEspecificos.repaint();
         jpEspecificos.revalidate();
+        panelActivo = panel;//sirve para recordar
         if (panel != null) {
             jpEspecificos.add(panel);
             jpEspecificos.repaint();
@@ -253,14 +265,49 @@ public class ProductosDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_cmbProductoAction
 
     private void botonAceptarClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarClick
-        
-        Alitas alita = new Alitas(); 
-        alita.nombre = txtNombre.getText(); 
-        alita.id = txtId.getText(); 
-        alita.precio = Double.parseDouble(txtPrecio.getText());
+        Producto producto;
+        switch(cmbProducto.getSelectedIndex()){
+            case 0: // pizza
+                Pizza pizza = new Pizza();
+                pizza.id = txtId.getText();
+                pizza.nombre = txtNombre.getText(); 
+                pizza.precio  = Double.parseDouble(txtPrecio.getText());
+                // Regresar la funcionalidad de un hijo
+                PizzaAtributos panelPizza = (PizzaAtributos)panelActivo;
+                pizza.tam = panelPizza.cmbPizzaTam.getSelectedItem()
+                                  .toString(); 
+                pizza.borde = panelPizza.chkPizzaQueso.isSelected();                        
+                producto = pizza; 
+                break;
+            case 1: // Bebidas
+                Bebida bebida = new Bebida();
+                bebida.id = txtId.getText(); 
+                bebida.nombre = txtNombre.getText();
+                bebida.precio = Double.parseDouble(txtPrecio.getText());
+                BebidasAtributos ba = (BebidasAtributos)panelActivo; 
+                bebida.tam = ba.txtTam.getText();
+                producto = bebida; 
+                break; 
+            case 2: 
+                Alitas alita = new Alitas(); 
+                alita.nombre = txtNombre.getText(); 
+                alita.id = txtId.getText(); 
+                alita.precio = Double.parseDouble(txtPrecio.getText());
+                producto = alita;
+                break;
+            case 3: 
+                Papas papas = new Papas(); 
+                papas.nombre = txtNombre.getText(); 
+                papas.id = txtId.getText(); 
+                papas.precio = Double.parseDouble(txtPrecio.getText());
+                producto = papas;
+                break; 
+            default:
+                producto = null;
+        }        
         // Controlador 
         ProductoControlador control = new ProductoControlador();
-        control.agregarProducto(alita);
+        control.agregarProducto(producto);
         System.out.println("Se registro");
         this.dispose();
         

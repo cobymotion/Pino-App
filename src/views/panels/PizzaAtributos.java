@@ -28,8 +28,8 @@ public class PizzaAtributos extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        cmbPizzaTam = new javax.swing.JComboBox<>();
+        chkPizzaQueso = new javax.swing.JCheckBox();
 
         setMaximumSize(new java.awt.Dimension(334, 123));
         setMinimumSize(new java.awt.Dimension(334, 123));
@@ -37,9 +37,9 @@ public class PizzaAtributos extends javax.swing.JPanel {
 
         jLabel1.setText("Tamaño:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MEDIANA", "FAMILIAR" }));
+        cmbPizzaTam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MEDIANA", "FAMILIAR" }));
 
-        jCheckBox1.setText("Orilla de queso");
+        chkPizzaQueso.setText("Orilla de queso");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -48,11 +48,11 @@ public class PizzaAtributos extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmbPizzaTam, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jCheckBox1))
+                            .addComponent(chkPizzaQueso))
                         .addGap(0, 186, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -62,17 +62,17 @@ public class PizzaAtributos extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cmbPizzaTam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox1)
+                .addComponent(chkPizzaQueso)
                 .addContainerGap(41, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    public javax.swing.JCheckBox chkPizzaQueso;
+    public javax.swing.JComboBox<String> cmbPizzaTam;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
