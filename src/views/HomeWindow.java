@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import views.dialogs.OrdenDialog;
 import views.dialogs.ProductosDialog;
 
 /**
@@ -581,13 +582,23 @@ public class HomeWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_openCalcutor
 
     private void agregaBotonClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregaBotonClick
-        /// Falta comparar 
-        ProductosDialog dialog = new ProductosDialog
+        switch(txtTituloBajo.getText()){
+            case "PRODUCTOS":
+                ProductosDialog dialog = new ProductosDialog
                                           (this, true, "Agregar producto");
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-        ProductoControlador control = new ProductoControlador();
-        tblDatos.setModel(control.generarModelo());
+                dialog.setLocationRelativeTo(this);
+                dialog.setVisible(true);
+                ProductoControlador control = 
+                        new ProductoControlador();
+                tblDatos.setModel(control.generarModelo());
+                break;
+            case "ORDENES":
+                OrdenDialog orden = new OrdenDialog
+                                           (this, true); 
+                orden.setLocationRelativeTo(this);
+                orden.setVisible(true);
+                actualizarOrdenes();
+        } // llave del switch
     }//GEN-LAST:event_agregaBotonClick
 
     
