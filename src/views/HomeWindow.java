@@ -2,6 +2,7 @@
 package views;
 
 import controller.ProductoControlador;
+import controller.TicketControlador;
 import controller.util.FechaSistema;
 import controller.util.TableFix;
 import java.awt.Color;
@@ -47,7 +48,7 @@ public class HomeWindow extends javax.swing.JFrame {
             System.out.println("No loaded icon image");
             e.printStackTrace();
         }
-        
+        actualizarOrdenes();
         timer = new Timer(60, new FechaSistema(txtFecha, txtHora));
         timer.start();
     }
@@ -495,8 +496,16 @@ public class HomeWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         resetColorsBtns();
         seleccionColor(btnOrdenes);
+        actualizarOrdenes();
     }//GEN-LAST:event_selectOrdenesClick
 
+    private void actualizarOrdenes(){
+        txtTituloBajo.setText("ORDENES");
+        txtTituloAlto.setText("LISTA DE ORDENES");
+        TicketControlador control = new TicketControlador();
+        tblDatos.setModel(control.generarModelo());
+    }
+    
     /**
      * Evento que sucede al dar clic en el boton de productos 
      * @param evt 
