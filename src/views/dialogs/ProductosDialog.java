@@ -6,12 +6,15 @@
 package views.dialogs;
 
 import controller.ProductoControlador;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import model.Alitas;
 import model.Bebida;
 import model.Papas;
 import model.Pizza;
 import model.Producto;
+import model.listas.Dato;
 import views.panels.BebidasAtributos;
 import views.panels.PizzaAtributos;
 
@@ -265,6 +268,31 @@ public class ProductosDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_cmbProductoAction
 
     private void botonAceptarClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarClick
+        
+        ///Validacion 2
+
+        if(txtId.getText().equals("") || 
+                txtNombre.getText().equals(""))
+        {
+              JOptionPane.showMessageDialog(this, 
+                     "Los campos no pueden estar vacíos","Error"
+                    ,JOptionPane.ERROR_MESSAGE);             
+            return; // Ya no sigas el metodo aqui ya se quebró
+        }         
+        ///Validacion 1
+        String clave = txtId.getText();
+        boolean existe = false; 
+        for(Producto p : Dato.listaProductos)
+            if(p.id.equals(clave)) // p.id == clave
+                {existe = true; break;}
+        if(existe)
+        {
+            JOptionPane.showMessageDialog(this, 
+                     "El producto ya existe","Información"
+                    ,JOptionPane.WARNING_MESSAGE);
+            return; // Ya no sigas el metodo aqui ya se quebró
+        }
+        ///
         Producto producto;
         switch(cmbProducto.getSelectedIndex()){
             case 0: // pizza
@@ -286,6 +314,13 @@ public class ProductosDialog extends javax.swing.JDialog {
                 bebida.precio = Double.parseDouble(txtPrecio.getText());
                 BebidasAtributos ba = (BebidasAtributos)panelActivo; 
                 bebida.tam = ba.txtTam.getText();
+                if(convertidorsitoEnteros(bebida.tam,ba.txtTam)<=0)
+                {
+                      JOptionPane.showMessageDialog(this, 
+                     "El tamaño no puede ser menor o cero","Error"
+                    ,JOptionPane.ERROR_MESSAGE);             
+                    return;
+                }
                 producto = bebida; 
                 break; 
             case 2: 
@@ -371,4 +406,16 @@ public class ProductosDialog extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField txtPrecio;
     private javax.swing.JLabel txtTituloVentana;
     // End of variables declaration//GEN-END:variables
+
+    private int convertidorsitoEnteros(String tam,
+                                                         JTextField txtTam) {
+        int numero = 0; 
+        try {
+            numero = Integer.parseInt(tam); 
+        } catch (Exception e) {
+            numero = 0; 
+        }
+        txtTam.setText("" + numero);
+        return numero;
+    }
 }

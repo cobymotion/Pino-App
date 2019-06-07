@@ -5,6 +5,12 @@
  */
 package views.dialogs;
 
+import controller.ClienteControlador;
+import controller.ProductoControlador;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import model.Cliente;
+import model.Producto;
 import model.Ticket;
 
 /**
@@ -14,6 +20,9 @@ import model.Ticket;
 public class OrdenDialog extends javax.swing.JDialog {
     Ticket ticket;
     
+    boolean banExisteCliente;
+    
+    
     /**
      * Creates new form OrdenDialog
      */
@@ -22,7 +31,17 @@ public class OrdenDialog extends javax.swing.JDialog {
         initComponents();
         ticket = new Ticket();
         lblTituloDialog.setText("ORDEN: " + ticket.folio);
-        txtFolio.setText("" + ticket.folio);
+        txtFolio.setText("" + ticket.folio);        
+        ticket.productos = new ArrayList<>();
+        actualizarTicket();
+    }
+    
+    public void actualizarTicket(){
+        double total = 0; 
+        for(Producto pTicket: ticket.productos)
+            total += pTicket.getPrecio();
+        String cad = String.format("$ %.2f", total);
+        lblTotal.setText(cad);
     }
 
     /**
@@ -41,23 +60,23 @@ public class OrdenDialog extends javax.swing.JDialog {
         txtFolio = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtTelefono = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        txtDomicilio = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtCobigo = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        btnAceptar = new javax.swing.JButton();
+        lblTotal = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -107,17 +126,27 @@ public class OrdenDialog extends javax.swing.JDialog {
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Telefono:");
 
-        jTextField3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtTelefono.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtTelefono.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtTelefonoLibre(evt);
+            }
+        });
+        txtTelefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTelefonoActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Nombre:");
 
-        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Domicilio:");
 
-        jTextField5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtDomicilio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-invitado-masculino-96.png"))); // NOI18N
 
@@ -130,14 +159,14 @@ public class OrdenDialog extends javax.swing.JDialog {
                 .addComponent(jLabel10)
                 .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField4)
-                    .addComponent(jTextField5)
+                    .addComponent(txtNombre)
+                    .addComponent(txtDomicilio)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel7)
+                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -151,15 +180,15 @@ public class OrdenDialog extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addGap(8, 8, 8)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -174,7 +203,12 @@ public class OrdenDialog extends javax.swing.JDialog {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Codigo producto:");
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCobigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCobigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCobigoClick(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -191,10 +225,15 @@ public class OrdenDialog extends javax.swing.JDialog {
 
         jButton5.setText("A");
 
-        jButton6.setText("A");
+        btnAceptar.setText("A");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarClick(evt);
+            }
+        });
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel5.setText("$2,000.00");
+        lblTotal.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        lblTotal.setText("$2,000.00");
 
         jLabel6.setText("TOTAL A PAGAR:");
 
@@ -222,7 +261,7 @@ public class OrdenDialog extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtCobigo, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
@@ -231,8 +270,8 @@ public class OrdenDialog extends javax.swing.JDialog {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel5)
+                                        .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblTotal)
                                     .addComponent(jLabel6))))))
                 .addContainerGap())
         );
@@ -260,18 +299,18 @@ public class OrdenDialog extends javax.swing.JDialog {
                         .addGap(9, 9, 9)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCobigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel6)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel5)))))
+                                .addComponent(lblTotal)))))
                 .addGap(0, 110, Short.MAX_VALUE))
         );
 
@@ -282,6 +321,65 @@ public class OrdenDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_lblBotonCerrarMouseClicked
+
+    private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
+        //Validacion        
+        txtNombre.requestFocus();
+    }//GEN-LAST:event_txtTelefonoActionPerformed
+
+    private void btnAceptarClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarClick
+        if(!banExisteCliente)
+        {
+            String tel = txtTelefono.getText();
+            String nombre = txtNombre.getText();
+            String direccion = txtDomicilio.getText();
+            Cliente cliente = new Cliente(tel, nombre, direccion);
+            ClienteControlador control = new ClienteControlador();
+            control.agregar(cliente);
+            System.out.println("Se grabo un nuevo cliente");
+        }
+        this.dispose();
+    }//GEN-LAST:event_btnAceptarClick
+
+    private void txtTelefonoLibre(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTelefonoLibre
+         if(txtTelefono.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(this,
+                   "No se recomien......",
+                    "Información", 
+                     JOptionPane.INFORMATION_MESSAGE);            
+            return;
+        }
+        
+        ClienteControlador control = new ClienteControlador();
+        banExisteCliente = control.siExiste(txtTelefono.getText());                
+        System.out.println("El cliente existe: " + banExisteCliente);
+        if(banExisteCliente){
+            Cliente clienteExistente = control.buscarCliente
+                                     (txtTelefono.getText()); 
+            txtNombre.setText(clienteExistente.nombre);
+            txtDomicilio.setText(clienteExistente.direccion);
+            txtCobigo.requestFocus();
+        } else 
+        {
+            txtNombre.setText("");
+            txtDomicilio.setText("");
+        }
+    }//GEN-LAST:event_txtTelefonoLibre
+
+    private void txtCobigoClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCobigoClick
+        System.out.println("Entro al click");
+        ProductoControlador control = new ProductoControlador();
+        Producto p = control.consultarProducto
+                           (txtCobigo.getText());
+        System.out.println("Regreso: " + p);
+        if(p!=null){
+            ticket.productos.add(p);
+            txtCobigo.setText("");
+            actualizarTicket();
+        }
+        
+    }//GEN-LAST:event_txtCobigoClick
 
     /**
      * @param args the command line arguments
@@ -326,16 +424,15 @@ public class OrdenDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAceptar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -344,12 +441,13 @@ public class OrdenDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JLabel lblBotonCerrar;
     private javax.swing.JLabel lblTituloDialog;
+    private javax.swing.JLabel lblTotal;
+    private javax.swing.JTextField txtCobigo;
+    private javax.swing.JTextField txtDomicilio;
     private javax.swing.JTextField txtFolio;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 }

@@ -40,7 +40,21 @@ public class ProductoControlador
 
     @Override
     public Producto consultarProducto(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Producto p = new Producto(); 
+        p.id = id; 
+        //int pos = Dato.listaProductos.indexOf(p);
+        int pos=-1; 
+        for(int i=0;i<Dato.listaProductos.size();i++)
+            if(id.equals(Dato.listaProductos.get(i).id))
+            {
+                pos = i; 
+                break;
+            }
+        if(pos>=0)
+            p = Dato.listaProductos.get(pos);
+        else 
+            p = null; 
+        return p;
     }
     
 }

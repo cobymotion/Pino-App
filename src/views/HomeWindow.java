@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
+import model.listas.Dato;
 import views.dialogs.OrdenDialog;
 import views.dialogs.ProductosDialog;
 
@@ -52,6 +54,7 @@ public class HomeWindow extends javax.swing.JFrame {
         actualizarOrdenes();
         timer = new Timer(60, new FechaSistema(txtFecha, txtHora));
         timer.start();
+        
     }
 
     /**
@@ -91,7 +94,7 @@ public class HomeWindow extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDatos = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -381,9 +384,14 @@ public class HomeWindow extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(163, 217, 119));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-eliminar-filled-32.png"))); // NOI18N
-        jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0)));
+        btnEliminar.setBackground(new java.awt.Color(163, 217, 119));
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-eliminar-filled-32.png"))); // NOI18N
+        btnEliminar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0)));
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarClick(evt);
+            }
+        });
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/res/icons8-maximizar-la-ventana-15.png"))); // NOI18N
         jLabel17.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -414,7 +422,7 @@ public class HomeWindow extends javax.swing.JFrame {
                                 .addGap(66, 66, 66)
                                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(6, 6, 6)))
                         .addContainerGap())))
         );
@@ -434,7 +442,7 @@ public class HomeWindow extends javax.swing.JFrame {
                     .addGroup(fondoLayout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)))
+                        .addComponent(btnEliminar)))
                 .addContainerGap(75, Short.MAX_VALUE))
         );
 
@@ -601,6 +609,29 @@ public class HomeWindow extends javax.swing.JFrame {
         } // llave del switch
     }//GEN-LAST:event_agregaBotonClick
 
+    private void btnEliminarClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClick
+        int filaSeleccionada = 
+                tblDatos.getSelectedRow();
+        System.out.println("Se presiono la linea: " + filaSeleccionada);
+        DefaultTableModel modelo = (DefaultTableModel)
+                tblDatos.getModel();
+        String clave = modelo.getValueAt(filaSeleccionada, 0)
+                .toString();
+        System.out.println("La clave selecciona es: " + clave);
+        /// confirmar la eliminacion 
+        for(int i=0;i<Dato.listaProductos.size();i++)
+        {
+             if(Dato.listaProductos.get(i).id.equals(clave))
+             {
+                 Dato.listaProductos.remove(i);
+                 ProductoControlador control = 
+                        new ProductoControlador();
+                tblDatos.setModel(control.generarModelo());
+                break;
+             } // cierra IF comentarios anti-chepe
+        } // cierra for
+    }//GEN-LAST:event_btnEliminarClick
+
     
     private void resetColorsBtns(){
         defaultColor(btnCaja);
@@ -653,11 +684,11 @@ public class HomeWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnCaja;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JPanel btnOrdenes;
     private javax.swing.JPanel btnProductos;
     private javax.swing.JPanel fondo;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
